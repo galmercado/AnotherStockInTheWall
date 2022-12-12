@@ -1,2 +1,6 @@
 FastApi
 Uvicorn
+requests
+yahoo_fin
+bs4
+selenium
