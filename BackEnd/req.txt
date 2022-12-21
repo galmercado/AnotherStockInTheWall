@@ -4,3 +4,5 @@ requests
 yahoo_fin
 bs4
 selenium
+pytest
+httpx
