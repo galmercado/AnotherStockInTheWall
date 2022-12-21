@@ -4,7 +4,7 @@ An app made for eass part A in hit, meant to show stocks information for users a
 ```
 Backend:            Python (FastAPI|uvicorn)
 Frontend:           TBD
-Database:           TBD
+Database:           MongoDB
 ```
 
 

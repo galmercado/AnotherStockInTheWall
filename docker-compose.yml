@@ -4,3 +4,14 @@ services:
                 build: ./BackEnd
                 ports:
                         - 8000:8080
+        database:
+                image: mongo
+                container_name: mongodb
+                environment:
+                -  PUID=1000
+                -  PGID=1000
+                volumes:
+                -  /mongodb/database:/data/db
+                ports:
+                -  27017:27017
+                restart: unless-stopped
