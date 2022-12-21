@@ -12,7 +12,7 @@ Useful commands
 ```
 Run docker:         docker compose up --build
 Stop docker:        docker compose down
-Run testing:        docker exec api python -m pytest
+Run testing:        docker exec backend pytest
 ```
 
 ```
