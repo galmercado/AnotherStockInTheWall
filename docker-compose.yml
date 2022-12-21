@@ -3,6 +3,4 @@ services:
         backend:
                 build: ./BackEnd
                 ports:
-                        - 80:8080
-                volumes:
-                        - /mnt:/mnt
+                        - 8000:8080
