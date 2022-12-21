@@ -21,3 +21,5 @@ def test_read_main():
     assert response.status_code == 200
     assert response.json() == "Welcome <3"
 
+def test_mongoConnect():
+    assert app.mongoClient.admin.command("ping") == {'ok': 1.0}

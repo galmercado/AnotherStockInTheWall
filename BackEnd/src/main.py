@@ -2,6 +2,7 @@ import json
 from fastapi import FastAPI
 from pydantic import BaseModel
 from stockApi import *
+from pymongo import MongoClient
 class Payload(BaseModel):
     data: str = ""
 
@@ -10,6 +11,8 @@ class stocksToUser(BaseModel):
     userid: str
 
 app = FastAPI()
+app.mongoClient = MongoClient("database:27017")
+
 
 @app.get("/")
 def welcome():
