@@ -15,3 +15,7 @@ services:
                 ports:
                 -  27017:27017
                 restart: unless-stopped
+        frontend:
+                 build: ./FrontEnd
+                 ports:
+                        - 8501:8501
