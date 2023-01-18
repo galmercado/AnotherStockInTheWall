@@ -19,3 +19,5 @@ services:
                  build: ./FrontEnd
                  ports:
                         - 8501:8501
+                 volumes:
+                        - ./FrontEnd/src/:/src/
