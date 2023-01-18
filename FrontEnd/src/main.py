@@ -6,16 +6,15 @@ import json
 import pandas as pd
 import numpy as np
 import os
-
+import httpx
 
 #DATA_URL1 = "C:\Users\User\Desktop\BGU\gal\test"
 DATA_URL = 'test'
-columns=["name", "email"]
+#columns=["name", "email"]
 
-basePath = os.path.dirname(os.path.abspath('test'))
 
-data = pd.read_json(basePath + '/test.json')
-data1=pd.DataFrame(data,columns=columns)
+data = pd.read_json(httpx.get('http://172.17.0.1:8000/getStocks/AAPL'))
+data1=pd.DataFrame(data)
 
 # Press the green button in the gutter to run the script.
 #if __name__ == '__main__':
