@@ -1,7 +1,7 @@
 import requests 
 import pandas as pd
 START_DATE = "2022-04-15"
-END_DATE = "2022-12-01"
+END_DATE = "2023-01-01"
 
 from yahoo_fin.stock_info import get_data as get_stock_data
 def collect_api(url, is_stock = False):

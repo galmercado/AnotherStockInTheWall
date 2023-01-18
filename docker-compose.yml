@@ -4,6 +4,8 @@ services:
                 build: ./BackEnd
                 ports:
                         - 8000:8080
+                volumes:
+                        - ./BackEnd/src/:/src/
         database:
                 image: mongo
                 container_name: mongodb
