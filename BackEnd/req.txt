@@ -7,3 +7,8 @@ selenium
 pytest
 httpx
 pymongo
+python-jose
+pydantic
+passlib
+python-multipart
+python-dotenv
