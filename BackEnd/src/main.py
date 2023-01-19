@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from stockApi import *
 from pymongo import MongoClient
+import pymongo
 from config import settings
 
 class Payload(BaseModel):
@@ -14,7 +15,9 @@ class stocksToUser(BaseModel):
 
 app = FastAPI()
 app.mongoClient = MongoClient(settings.DATABASE_URL)
-
+db = app.mongoClient[settings.MONGO_INITDB_DATABASE]
+app.userDB = db["users"]
+app.userDB.create_index([("username", pymongo.ASCENDING)], unique=True)
 
 @app.get("/")
 def welcome():
@@ -53,6 +56,7 @@ fake_users_db = {
 }
 
 
+
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -86,9 +90,12 @@ def get_password_hash(password):
 
 
 def get_user(db, username: str):
-    if username in db:
+    '''if username in db:
         user_dict = db[username]
-        return UserInDB(**user_dict)
+        return UserInDB(**user_dict)'''
+    u_dict = app.userDB.find_one({'username': username})
+    return UserInDB(**u_dict)
+        
 
 
 def authenticate_user(fake_db, username: str, password: str):
