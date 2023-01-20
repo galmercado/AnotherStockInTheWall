@@ -18,7 +18,7 @@ import httpx
 #if __name__ == '__main__':
 if (st.session_state.username):
    mainTitle=st.title ("""hello """ + st.session_state.username)
-   js = httpx.get('http://172.17.0.1:8000/getStocksByUser?username=' + st.session_state.username).json()
+   js = httpx.get('http://172.17.0.1:8000/getStocksByUser?username=' + st.session_state.username, timeout = 15.0).json()
    df = pd.DataFrame.from_dict(js)
    df.index = pd.to_datetime(df.index)
    st.line_chart(df)
