@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from stockApi import *
 from pymongo import MongoClient
 import pymongo
+import pandas as pd
 from config import settings
 
 class Payload(BaseModel):
@@ -24,13 +25,21 @@ app.stocksDB.create_index([("username", pymongo.ASCENDING)],unique = True)
 def welcome():
     return "Welcome <3"
 
-@app.get("/getStocks/{lstStocks}")
-def getStocks(lstStocks):
-    return get_stock(symbol = lstStocks, is_api = True)
+@app.get("/getStocks/")
+def getStocks(lstStocks: list[str]):
+    df = pd.DataFrame()
+    for stock in lstStocks:
+        df[stock] = get_stock(symbol = stock, is_api = True)["adjclose"]
+    return df
 
 @app.get("/getStockDate/")
 def getStocksByDate(stock: str = "", startDate:str = "2022-12-12", endDate:str = "2022-12-19"):
     return get_stock(symbol = stock, start_date = startDate, end_date = endDate, is_api = True)
+
+@app.get("/getStocksByUser")
+def getStocksByUser(username: str):
+    curr_lstStocks = app.stocksDB.find_one({'username': username})["lstStocks"]
+    return getStocks(curr_lstStocks)
 
 @app.post("/addStocksToFavourite/")
 def addStockToDB(stock: stocksToUser):
