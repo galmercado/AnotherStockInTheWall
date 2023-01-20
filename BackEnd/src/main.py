@@ -6,7 +6,7 @@ from pymongo import MongoClient
 import pymongo
 import pandas as pd
 from config import settings
-
+import datetime
 class Payload(BaseModel):
     data: str = ""
 
@@ -29,10 +29,10 @@ def welcome():
 def getStocks(stock):
     return get_stock(stock, is_api = True)
 
-def getStocksFromList(lstStocks: list[str]):
+def getStocksFromList(lstStocks: list[str], startDate:str, endDate:str):
     df = pd.DataFrame()
     for stock in lstStocks:
-        df[stock] = get_stock(symbol = stock, is_api = True)["adjclose"]
+        df[stock] = get_stock(symbol = stock, start_date = startDate, end_date = endDate, is_api = True)["adjclose"]
     return df
 
 @app.get("/getStockDate/")
@@ -40,9 +40,9 @@ def getStocksByDate(stock: str = "", startDate:str = "2022-12-12", endDate:str =
     return get_stock(symbol = stock, start_date = startDate, end_date = endDate, is_api = True)
 
 @app.get("/getStocksByUser")
-def getStocksByUser(username: str):
+def getStocksByUser(username: str= "", startDate:str = (datetime.date.today() - datetime.timedelta(days = 7)), endDate:str = datetime.date.today()):
     curr_lstStocks = app.stocksDB.find_one({'username': username})["lstStocks"]
-    return getStocksFromList(curr_lstStocks)
+    return getStocksFromList(curr_lstStocks, startDate, endDate)
 
 @app.post("/addStocksToFavourite/")
 def addStockToDB(stock: stocksToUser):
