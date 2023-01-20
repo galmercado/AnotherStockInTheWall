@@ -23,9 +23,10 @@ if (st.session_state.username):
 
    if (but):
        st.write(title)
-       data = pd.read_json(httpx.get('http://172.17.0.1:8000/getStocks/' + title))
-       data1=pd.DataFrame(data)
-       table=st.line_chart(data1["adjclose"])
+       data = httpx.get('http://172.17.0.1:8000/getStock/?stock=' + title).json()
+       data1=pd.DataFrame.from_dict(data)["adjclose"]
+       data1.index = pd.to_datetime(data1.index)
+       table=st.line_chart(data1)
 
 
 
