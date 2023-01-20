@@ -4,6 +4,8 @@ START_DATE = "2022-04-15"
 END_DATE = "2023-01-01"
 
 from yahoo_fin.stock_info import get_data as get_stock_data
+from yahoo_fin.stock_info import tickers_sp500 as get_sp500
+
 def collect_api(url, is_stock = False):
   # Make a get request.
   response = requests.get(url)
@@ -26,6 +28,16 @@ def get_stock(symbol, start_date = START_DATE, end_date = END_DATE,
       df = collect_crawling(symbol, start_date, end_date, date_format).filter(["adjclose", "ticker"])
   
   return df
+
+LST_SP500 = []
+def get_lstSP500():
+    global LST_SP500
+    if(len(LST_SP500) == 0):
+        LST_SP500 = get_sp500()
+        return LST_SP500
+    else:
+        return LST_SP500
+
 
 import sys
 from selenium import webdriver
