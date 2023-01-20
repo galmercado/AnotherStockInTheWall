@@ -46,13 +46,11 @@ def getStocksByUser(username: str):
 
 @app.post("/addStocksToFavourite/")
 def addStockToDB(stock: stocksToUser):
-    curr_lstStocks = app.stocksDB.find_one({'username': stock.username})["lstStocks"]
-    new_lstStocks = {"$set": {'lstStocks' : (curr_lstStocks + stock.lstStock)}}
+    new_lstStocks = {"$set": {'lstStocks' : (stock.lstStock)}}
     app.stocksDB.update_one(filter = {"username": stock.username}, update = new_lstStocks)
 
 @app.get("/getlstsp500/")
 def getlstsp500():
-    print("****************************")
     return get_lstSP500()
 
 
