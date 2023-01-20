@@ -20,10 +20,11 @@ if (st.session_state.username):
    mainTitle=st.title ("""hello Gal""")
    but=st.button("Submit")
    title=st.text_input("testing text","Enter Stock name")
-
+   start_date = st.date_input(label = "Start Date")
+   end_date = st.date_input(label = "End Date")
    if (but):
        st.write(title)
-       data = httpx.get('http://172.17.0.1:8000/getStock/?stock=' + title).json()
+       data = httpx.get('http://172.17.0.1:8000/getStockDate/?stock=' + title + "&startDate=" + start_date.strftime("%x") + "&endDate=" + end_date.strftime("%x")).json()
        data1=pd.DataFrame.from_dict(data)["adjclose"]
        data1.index = pd.to_datetime(data1.index)
        table=st.line_chart(data1)
