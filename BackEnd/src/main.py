@@ -11,14 +11,15 @@ class Payload(BaseModel):
 
 class stocksToUser(BaseModel):
     lstStock: list
-    userid: str
+    username: str
 
 app = FastAPI()
 app.mongoClient = MongoClient(settings.DATABASE_URL)
 db = app.mongoClient[settings.MONGO_INITDB_DATABASE]
 app.userDB = db["users"]
 app.userDB.create_index([("username", pymongo.ASCENDING)], unique=True)
-
+app.stocksDB = db["stocks"]
+app.stocksDB.create_index([("username", pymongo.ASCENDING)],unique = True)
 @app.get("/")
 def welcome():
     return "Welcome <3"
@@ -33,7 +34,10 @@ def getStocksByDate(stock: str = "", startDate:str = "2022-12-12", endDate:str =
 
 @app.post("/addStocksToFavourite/")
 def addStockToDB(stock: stocksToUser):
-    return stock #TODO: add to DB, in the meantime just returns the item
+    curr_lstStocks = app.stocksDB.find_one({'username': stock.username})["lstStocks"]
+    new_lstStocks = {"$set": {'lstStocks' : (curr_lstStocks + stock.lstStock)}}
+    app.stocksDB.update_one(filter = {"username": stock.username}, update = new_lstStocks)
+ #TODO: add to DB, in the meantime just returns the item
 
 
 from datetime import datetime, timedelta
