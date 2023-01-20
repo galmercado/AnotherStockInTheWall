@@ -1,9 +1,11 @@
 # AnotherStockInTheWall
 An app made for eass part A in hit, meant to show stocks information for users according to their preference.
 
+
+
 ```
 Backend:            Python (FastAPI|uvicorn)
-Frontend:           TBD
+Frontend:           streamlit
 Database:           MongoDB
 ```
 
@@ -17,4 +19,5 @@ Run testing:        docker exec backend pytest
 
 ```
 Backend: localhost:8000
+Frontend: localhost:8501
 ```
