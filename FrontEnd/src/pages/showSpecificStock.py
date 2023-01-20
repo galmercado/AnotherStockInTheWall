@@ -9,22 +9,23 @@ import os
 import httpx
 
 #DATA_URL1 = "C:\Users\User\Desktop\BGU\gal\test"
-DATA_URL = 'test'
+#DATA_URL = 'test'
 #columns=["name", "email"]
 
 
 
 # Press the green button in the gutter to run the script.
 #if __name__ == '__main__':
-mainTitle=st.title ("""hello Gal""")
-but=st.button("Submit")
-title=st.text_input("testing text","Enter Stock name")
+if (st.session_state.username):
+   mainTitle=st.title ("""hello Gal""")
+   but=st.button("Submit")
+   title=st.text_input("testing text","Enter Stock name")
 
-if (but):
-	st.write(title)
-	data = pd.read_json(httpx.get('http://172.17.0.1:8000/getStocks/' + title))
-	data1=pd.DataFrame(data)
-	table=st.table(data1)
+   if (but):
+       st.write(title)
+       data = pd.read_json(httpx.get('http://172.17.0.1:8000/getStocks/' + title))
+       data1=pd.DataFrame(data)
+       table=st.line_chart(data1["adjclose"])
 
 
 
